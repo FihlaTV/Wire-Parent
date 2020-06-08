@@ -1,6 +1,7 @@
 package com.shubzz.wireparent;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,13 +30,18 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_uq = "key";
     private static final String KEY_Longitude = "Longitude";
     private static final String KEY_Latitude = "Latitude";
-    private String get_location = "http://34.93.78.17/project/getLocation.php";
+    private String get_location = "http://192.168.43.98/wire/getLocation.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         session = new SessionHandler(getApplicationContext());
+        MySOSReceiver MyReceiver = new MySOSReceiver();
+        IntentFilter intentFilter = new IntentFilter("com.shubzz.wireparent");
+        if (intentFilter != null) {
+            registerReceiver(MyReceiver, intentFilter);
+        }
         initGUI();
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

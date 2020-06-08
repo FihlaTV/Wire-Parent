@@ -1,4 +1,5 @@
 package com.shubzz.wireparent;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +34,7 @@ public class Login extends AppCompatActivity {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_EMPTY = "";
-    private String login_url = "http://34.93.78.17/project/login.php";
+    private String login_url = "http://192.168.43.98/wire/login.php";
     private SessionHandler session;
     CatLoadingView vi;
 
@@ -43,8 +44,10 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initializeGUI();
+
+
         session = new SessionHandler(getApplicationContext());
-        if(session.isLoggedIn()){
+        if (session.isLoggedIn()) {
             loadMainactivity();
         }
         //user = firebaseAuth.getCurrentUser();
@@ -62,7 +65,7 @@ public class Login extends AppCompatActivity {
                 String inPassword = password.getText().toString().trim();
 
                 //disp();
-                if(validateInput(inEmail, inPassword)){
+                if (validateInput(inEmail, inPassword)) {
                     signUser(inEmail, inPassword);
                 }
 
@@ -73,14 +76,14 @@ public class Login extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login.this,SignUp.class));
+                startActivity(new Intent(Login.this, SignUp.class));
             }
         });
 
         forgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login.this,PwReset.class));
+                startActivity(new Intent(Login.this, PwReset.class));
             }
         });
 
@@ -95,58 +98,58 @@ public class Login extends AppCompatActivity {
 
     private void displayLoader() {
         vi = new CatLoadingView();
-        vi.show(getSupportFragmentManager(),"");
+        vi.show(getSupportFragmentManager(), "");
         vi.setCanceledOnTouchOutside(false);
     }
 
 
-    public void signUser(final String email, String password){
+    public void signUser(final String email, String password) {
         displayLoader();
         JSONObject request = new JSONObject();
         try {
             //Populate the request parameters
             request.put(KEY_USERNAME, email);
             request.put(KEY_PASSWORD, password);
-            Log.d("Request",request.toString());
+            Log.d("Request", request.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();  //parent app
         }
         JsonObjectRequest jsArrayRequest = new JsonObjectRequest(Request.Method.POST, login_url, request, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        vi.dismiss();
-                        try {
-                            //Check if user got logged in successfully
+            @Override
+            public void onResponse(JSONObject response) {
+                vi.dismiss();
+                try {
+                    //Check if user got logged in successfully
 
-                            if (response.getInt(KEY_STATUS) == 0) {
-                                session.loginUser(email,response.getString(KEY_FULL_NAME), response.getString("uq_key1"), response.getString("uq_key2"), response.getString("uq_key3"), response.getString("uq_key4"));
-                                Log.d("UQKEY",response.getString("uq_key1"));
-                                //Toast.makeText(getApplicationContext(),"VOLLAAA IT WORKED",Toast.LENGTH_LONG).show();
-                                loadMainactivity();
+                    if (response.getInt(KEY_STATUS) == 0) {
+                        session.loginUser(email, response.getString(KEY_FULL_NAME), response.getString("uq_key1"), response.getString("uq_key2"), response.getString("uq_key3"), response.getString("uq_key4"));
+                        Log.d("UQKEY", response.getString("uq_key1"));
+                        //Toast.makeText(getApplicationContext(),"VOLLAAA IT WORKED",Toast.LENGTH_LONG).show();
+                        loadMainactivity();
 
-                            }else{
-                                Toast.makeText(getApplicationContext(),
-                                        response.getString(KEY_MESSAGE), Toast.LENGTH_SHORT).show();
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        vi.dismiss();
-
-                        //Display error message whenever an error occurs
-
+                    } else {
                         Toast.makeText(getApplicationContext(),
-                                error.getMessage(), Toast.LENGTH_SHORT).show();
+                                response.getString(KEY_MESSAGE), Toast.LENGTH_SHORT).show();
 
                     }
-                });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                vi.dismiss();
+
+                //Display error message whenever an error occurs
+
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
         MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
 //        progressDialog.setMessage("Verificating...");
 //        progressDialog.show();
@@ -169,7 +172,7 @@ public class Login extends AppCompatActivity {
     }
 
 
-    private void initializeGUI(){
+    private void initializeGUI() {
 
         logo = findViewById(R.id.ivLogLogo);
         ivSignIn = findViewById(R.id.ivSignIn);
@@ -186,12 +189,12 @@ public class Login extends AppCompatActivity {
     }
 
 
-    public boolean validateInput(String inemail, String inpassword){
-        if(inemail.isEmpty()){
+    public boolean validateInput(String inemail, String inpassword) {
+        if (inemail.isEmpty()) {
             email.setError("Email field is empty.");
             return false;
         }
-        if(inpassword.isEmpty()){
+        if (inpassword.isEmpty()) {
             password.setError("Password is empty.");
             return false;
         }

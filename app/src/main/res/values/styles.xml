@@ -11,11 +11,16 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Font_family_light" parent="AppTheme">
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="Font_family_regular" parent="AppTheme">
         <item name="android:fontFamily">sans-serif-regular</item>
+    </style>
+
+    <style name="MyDialog" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 </resources>

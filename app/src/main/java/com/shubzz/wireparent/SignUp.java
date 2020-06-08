@@ -28,7 +28,7 @@ public class SignUp extends AppCompatActivity {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_EMPTY = "";
-    private String register_url = "http://34.93.78.17/project/register.php";
+    private String register_url = "http://192.168.43.98/wire/register.php";
     private SessionHandler session;
     private ImageView logo, joinus;
     private AutoCompleteTextView username, email, password;
