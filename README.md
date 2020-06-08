@@ -30,3 +30,9 @@ Parent android app
 
 3. Click Clone option
 ```
+
+
+## ScreenShot
+
+![alt text](ScreenShot/keysWindow.png "Keys")
+![alt text](ScreenShot/ShowSpeed.png "Speed")
