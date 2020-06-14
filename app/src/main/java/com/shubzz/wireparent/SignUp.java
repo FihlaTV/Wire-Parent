@@ -101,6 +101,7 @@ public class SignUp extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+       //{"username":"test@test.vcom",""}
         JsonObjectRequest jsArrayRequest = new JsonObjectRequest(Request.Method.POST, register_url, request, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
