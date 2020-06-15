@@ -1,4 +1,4 @@
-package com.shubzz.wireparent;
+package com.shubzz.wireparent.etc;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -10,6 +10,9 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+
+import com.shubzz.wireparent.R;
+import com.shubzz.wireparent.SOSNotification;
 
 public class MySOSReceiver extends BroadcastReceiver {
 

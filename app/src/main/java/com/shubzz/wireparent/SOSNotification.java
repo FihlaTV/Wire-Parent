@@ -7,7 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import static com.shubzz.wireparent.MySOSReceiver.NOTIFICATION_CHANNEL_ID;
+import static com.shubzz.wireparent.etc.MySOSReceiver.NOTIFICATION_CHANNEL_ID;
 
 public class SOSNotification extends BroadcastReceiver {
     public static String NOTIFICATION_ID = "notification-id";

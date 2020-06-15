@@ -1,7 +1,8 @@
 package com.shubzz.wireparent;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,11 +38,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         session = new SessionHandler(getApplicationContext());
-        MySOSReceiver MyReceiver = new MySOSReceiver();
-        IntentFilter intentFilter = new IntentFilter("com.shubzz.wireparent");
-        if (intentFilter != null) {
-            registerReceiver(MyReceiver, intentFilter);
-        }
+
+        AlarmManager alarm = (AlarmManager) getApplicationContext()
+                .getSystemService(getApplicationContext().ALARM_SERVICE);
+        Intent i = new Intent(getApplicationContext(), MyIntentSOSService.class);
+        PendingIntent pinIntent = PendingIntent.getService(getApplicationContext(), 0, i,
+                0);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis(), 10000L, pinIntent);
+//        MySOSReceiver MyReceiver = new MySOSReceiver();
+//        IntentFilter intentFilter = new IntentFilter("com.shubzz.wireparent");
+//        if (intentFilter != null) {
+//            registerReceiver(MyReceiver, intentFilter);
+//        }
         initGUI();
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
             request.put(KEY_FULL_NAME, details[0]);
             request.put(KEY_USERNAME, details[1]);
             request.put(KEY_uq, details[2]);
-            Log.d("request",details[2]);
-            Log.d("request",request.toString());
+            Log.d("request", details[2]);
+            Log.d("request", request.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -118,19 +127,19 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.d("request",response.toString());
 //                        Log.d("request",response.getString(KEY_Longitude)+" "+response.getString(KEY_Latitude));
 
-                        if(response.getString(KEY_Longitude).equals("null")  || response.getString(KEY_Longitude).equals("null")){
-                            Toast.makeText(getApplicationContext(),"Key Not used", Toast.LENGTH_SHORT).show();
-                        }else{
-                            session.setLocation(response.getString(KEY_Longitude),response.getString(KEY_Latitude));
+                        if (response.getString(KEY_Longitude).equals("null") || response.getString(KEY_Longitude).equals("null")) {
+                            Toast.makeText(getApplicationContext(), "Key Not used", Toast.LENGTH_SHORT).show();
+                        } else {
+                            session.setLocation(response.getString(KEY_Longitude), response.getString(KEY_Latitude));
                             Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                            intent.putExtra("Latitude",response.getString(KEY_Latitude));
-                            intent.putExtra("Longitude",response.getString(KEY_Longitude));
+                            intent.putExtra("Latitude", response.getString(KEY_Latitude));
+                            intent.putExtra("Longitude", response.getString(KEY_Longitude));
                             startActivity(intent);
                             //Toast.makeText(getApplicationContext(),response.getString(KEY_MESSAGE), Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
-                        Toast.makeText(getApplicationContext(),response.getString(KEY_MESSAGE), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), response.getString(KEY_MESSAGE), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -140,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });

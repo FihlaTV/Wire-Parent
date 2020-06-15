@@ -20,9 +20,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <service
+            android:name=".MyIntentSOSService"
+            android:exported="false"></service>
 
         <receiver
-            android:name=".MySOSReceiver"
+            android:name=".etc.MySOSReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
